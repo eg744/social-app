@@ -1,1 +1,1 @@
-Web app with a mockup e-commerce storefront. Using Next.js and TailwindCSS to create a front end e-commerce style site. 
+Web app for a basic social media site. Getting more comfortable with the T3 stack (Next.js, NextAuth.js, Tailwind CSS, Prisma, tRPC)
