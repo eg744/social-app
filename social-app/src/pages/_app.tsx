@@ -11,7 +11,6 @@ const MyApp: AppType<{ session: Session | null }> = ({
   pageProps: { session, ...pageProps },
 }) => {
   return (
-    // TODO: Wrap in main/container
     <SessionProvider session={session}>
       <Component {...pageProps} />
     </SessionProvider>
