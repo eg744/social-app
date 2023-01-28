@@ -17,6 +17,8 @@ export const authOptions: NextAuthOptions = {
     },
   },
   // Configure one or more authentication providers
+
+  // Think about adding other auth providers, everything included for discord.
   adapter: PrismaAdapter(prisma),
   providers: [
     DiscordProvider({
