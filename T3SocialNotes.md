@@ -5,7 +5,8 @@ exact version in setup example
 pnpm add react-icons@1.11.6 dayjs@1.11.6
 
 ==Prisma DB==
-pnpm prisma db push
+pnpm, prisma
+npm prisma db push
 
 ==Discord==
 https://discord.com/developers/applications
