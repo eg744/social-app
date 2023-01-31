@@ -8,6 +8,7 @@ import { api } from "../utils/api";
 const Home: NextPage = () => {
   // Prisma and router example query
   // const hello = api.example.hello.useQuery({ text: "from tRPC" });
+  const { data: session } = useSession();
 
   return (
     <>
@@ -17,6 +18,8 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <div>hello world</div>
+      <button onClick={() => signIn()}>Log in</button>
+      {JSON.stringify(session)}
       {/* Example main. will not work without the example query. */}
       {/* <main className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-b from-[#2e026d] to-[#15162c]">
         <div className="container flex flex-col items-center justify-center gap-12 px-4 py-16 ">
