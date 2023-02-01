@@ -1,6 +1,8 @@
 // This is your Prisma schema file,
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
+// To create migration scripts: npx prisma migrate dev
+
 generator client {
     provider = "prisma-client-js"
 }
@@ -56,6 +58,7 @@ model User {
     image         String?
     accounts      Account[]
     sessions      Session[]
+    post          Post[]
 }
 
 model VerificationToken {
@@ -64,4 +67,14 @@ model VerificationToken {
     expires    DateTime
 
     @@unique([identifier, token])
+}
+
+// User model
+model Post {
+    id          String      @id @default(cuid())
+
+    text        String
+
+    author      User        @relation(fields: [authorID], references: [id])
+    authorID    String
 }
