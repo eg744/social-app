@@ -58,6 +58,7 @@ model User {
     image         String?
     accounts      Account[]
     sessions      Session[]
+    // Added "properties"
     post          Post[]
 }
 
@@ -71,10 +72,12 @@ model VerificationToken {
 
 // User model
 model Post {
-    id          String      @id @default(cuid())
+    id String @id @default(cuid())
 
-    text        String
+    text String
 
-    author      User        @relation(fields: [authorID], references: [id])
-    authorID    String
+    author   User   @relation(fields: [authorID], references: [id])
+    authorID String
+
+    createdAt DateTime @default(now())
 }
