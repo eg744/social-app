@@ -70,7 +70,7 @@ model VerificationToken {
     @@unique([identifier, token])
 }
 
-// User model
+// Connected with user model
 model Post {
     id String @id @default(cuid())
 
@@ -80,4 +80,6 @@ model Post {
     authorID String
 
     createdAt DateTime @default(now())
+    // Updated when post object is updated 
+    updatedAt DateTime @updatedAt
 }

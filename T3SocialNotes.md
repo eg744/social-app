@@ -6,7 +6,8 @@ pnpm add react-icons@1.11.6 dayjs@1.11.6
 
 ==Prisma DB==
 pnpm, prisma
-npm prisma db push
+to update schema: pnpm prisma db push
+run prisma studio: pnpm prisma studio
 
 ==Discord==
 https://discord.com/developers/applications
