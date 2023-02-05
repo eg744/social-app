@@ -15,7 +15,7 @@ export const postRouter = createTRPCRouter({
         }),
       })
     )
-    // Context, input for mutation
+    // Context, input for mutation to create post.
     .mutation(({ ctx, input }) => {
       // Connect author to the post using session ID
       const { prisma, session } = ctx;
@@ -27,6 +27,7 @@ export const postRouter = createTRPCRouter({
         data: {
           text,
           author: {
+            // Link the user to data of post
             connect: {
               id: userId,
             },

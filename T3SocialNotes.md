@@ -18,3 +18,6 @@ on local:
 http://localhost:3000/api/auth/callback/discord
 
 add another redirect in Discord Oauth2 page for hosted/live sites
+
+==User actions==
+create post: router in /server/routers/post.ts. FE in components/CreatePost.tsx
