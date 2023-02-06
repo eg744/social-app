@@ -9,15 +9,20 @@ pnpm, prisma
 to update schema: pnpm prisma db push
 run prisma studio: pnpm prisma studio
 
-==Discord==
-https://discord.com/developers/applications
-get CLIENT ID, CLIENT SECRET
-
+==Redirect==
 Add redirect:
 on local:
 http://localhost:3000/api/auth/callback/discord
 
 add another redirect in Discord Oauth2 page for hosted/live sites
+==Discord==
+https://discord.com/developers/applications
+get CLIENT ID, CLIENT SECRET
+IDs included in .env
+
+==Router==
+Primary router in server/api/root.ts
+manually add routers used in /api/routers
 
 ==User actions==
-create post: router in /server/routers/post.ts. FE in components/CreatePost.tsx
+create post: router in /server/routers/post.ts. FE user form in components/CreatePost.tsx
