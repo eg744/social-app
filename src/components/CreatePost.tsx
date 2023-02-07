@@ -15,7 +15,7 @@ export const postSchema = object({
     .max(280),
 });
 
-export function createPost() {
+export function CreatePost() {
   // Form  Validated manually
   // If using multiple forms, use https://react-hook-form.com/
 
