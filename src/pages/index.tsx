@@ -4,6 +4,7 @@ import Link from "next/link";
 import { signIn, signOut, useSession } from "next-auth/react";
 
 import { api } from "../utils/api";
+import { Timeline } from "../components/Timeline";
 
 const Home: NextPage = () => {
   // Prisma and router example query
@@ -19,6 +20,7 @@ const Home: NextPage = () => {
       </Head>
       <div>hello world</div>
       <button onClick={() => signIn()}>Log in</button>
+      <Timeline />
 
       {console.log(JSON.stringify(session))}
       {/* Example main. will not work without the example query. */}
