@@ -19,7 +19,9 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <div>hello world</div>
-      <button onClick={() => signIn()}>Log in</button>
+      <button onClick={() => signIn()} className={"bg-gray-900"}>
+        Log in
+      </button>
       <Timeline />
 
       {console.log(JSON.stringify(session))}

@@ -15,7 +15,9 @@ const MyApp: AppType<{ session: Session | null }> = ({
     // wrap component in main, container
     <SessionProvider session={session}>
       <Container>
-        <Component {...pageProps} />
+        <main>
+          <Component {...pageProps} />
+        </main>
       </Container>
     </SessionProvider>
   );
