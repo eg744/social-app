@@ -6,8 +6,13 @@ import { object, string } from "zod";
 import Trpc from "../pages/api/trpc/[trpc]";
 import { api } from "../utils/api";
 
-const postSchema = object({
-  text: string(),
+export const postSchema = object({
+  // Set acceptable text size
+  text: string({
+    required_error: "Post text is required",
+  })
+    .min(10)
+    .max(280),
 });
 
 export function createPost() {
@@ -21,26 +26,39 @@ export function createPost() {
   const { mutateAsync, mutate } = api.post.create.useMutation();
   // Optional properties: const mutation = api.post.create.useMutation().mutateAsync;
 
-  function handleSubmit(event) {
+  async function handleSubmit(event) {
     event.preventDefault();
-    if (text.length < 10) {
-      setError("Post must be minimum 10 characters long");
+
+    // Test passing string. Update error
+    try {
+      await postSchema.parse({ text });
+    } catch (event) {
+      setError(event.message);
       return;
     }
+
+    // if (text.length < 10) {
+    //   setError("Post must be minimum 10 characters long");
+    //   return;
+    // }
+    // else
     mutateAsync({ text });
   }
 
   return (
-    <form onSubmit={handleSubmit}>
-      <textarea
-        onChange={(event) => {
-          setText(event.target.value);
-        }}
-      ></textarea>
+    <>
+      {error && JSON.stringify(error)}
+      <form onSubmit={handleSubmit}>
+        <textarea
+          onChange={(event) => {
+            setText(event.target.value);
+          }}
+        ></textarea>
 
-      <div>
-        <button type="submit">Make Post</button>
-      </div>
-    </form>
+        <div>
+          <button type="submit">Make Post</button>
+        </div>
+      </form>
+    </>
   );
 }
