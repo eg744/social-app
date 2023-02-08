@@ -48,15 +48,23 @@ export function CreatePost() {
   return (
     <>
       {error && JSON.stringify(error)}
-      <form onSubmit={handleSubmit}>
+      {/* full width,  */}
+      <form
+        className={"flex-col, mb-4 w-full rounded-md border-2  p-4 shadow-md"}
+        onSubmit={handleSubmit}
+      >
         <textarea
           onChange={(event) => {
             setText(event.target.value);
           }}
+          className={"w-full"}
         ></textarea>
 
-        <div>
-          <button type="submit">Make Post</button>
+        <div className={" mt-4 flex justify-end"}>
+          {/* Set bg-primary */}
+          <button className={" bg-primary px-4 py-2 text-white "} type="submit">
+            Make Post
+          </button>
         </div>
       </form>
     </>
