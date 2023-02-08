@@ -60,10 +60,13 @@ export function CreatePost() {
           className={"w-full"}
         ></textarea>
 
-        <div className={" mt-4 flex justify-end"}>
+        <div className={" mt-4 flex justify-center"}>
           {/* Set bg-primary */}
-          <button className={" bg-primary px-4 py-2 text-white "} type="submit">
-            Make Post
+          <button
+            className={" rounded-sm bg-primary px-4 py-2 text-white shadow-md "}
+            type="submit"
+          >
+            Make a Post
           </button>
         </div>
       </form>
