@@ -72,6 +72,7 @@ model VerificationToken {
 
 // Connected with user model
 model Post {
+    // Unique id per post
     id String @id @default(cuid())
 
     text String

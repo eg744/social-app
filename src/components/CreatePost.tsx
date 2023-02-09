@@ -50,14 +50,14 @@ export function CreatePost() {
       {error && JSON.stringify(error)}
       {/* full width,  */}
       <form
-        className={"flex-col, mb-4 w-full rounded-md border-2  p-4 shadow-md"}
+        className={"flex-col, mb-4 w-full rounded-md  p-4 shadow-md"}
         onSubmit={handleSubmit}
       >
         <textarea
           onChange={(event) => {
             setText(event.target.value);
           }}
-          className={"w-full"}
+          className={"w-full rounded-sm shadow-sm"}
         ></textarea>
 
         <div className={" mt-4 flex justify-center"}>
