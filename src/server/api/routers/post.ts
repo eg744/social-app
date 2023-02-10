@@ -38,33 +38,33 @@ export const postRouter = createTRPCRouter({
         },
       });
     }),
+
+  // Posts previously made: Public, viewable if user is logged out
+  timeline: publicProcedure
+    .input(
+      z.object({
+        cursor: z.string().nullish(),
+
+        // Intended number of posts fetched on each request
+        limit: z.number().min(1).max(100),
+      })
+    )
+    .query(async ({ ctx, input }) => {
+      const { prisma } = ctx;
+      const { cursor, limit } = input;
+
+      // Simple query
+
+      const posts = await prisma.post.findMany({
+        orderBy: [
+          {
+            createdAt: "desc",
+          },
+        ],
+      });
+
+      return {
+        posts,
+      };
+    }),
 });
-
-// Posts previously made: Public, viewable if user is logged out
-list: publicProcedure
-  .input(
-    z.object({
-      cursor: z.string().nullish(),
-
-      // Intended number of posts fetched on each request
-      limit: z.number().min(1).max(100),
-    })
-  )
-  .query(async ({ ctx, input }) => {
-    const { prisma } = ctx;
-    const { cursor, limit } = input;
-
-    // Simple query
-
-    const posts = await prisma.post.findMany({
-      orderBy: [
-        {
-          createdAt: "desc",
-        },
-      ],
-    });
-
-    return {
-      posts,
-    };
-  });
