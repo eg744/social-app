@@ -64,7 +64,7 @@ export function CreatePost() {
         ></textarea>
 
         <div className={" mt-4 flex justify-center"}>
-          {/* Set bg-primary */}
+          {/* Set bg-primary in tailwind config*/}
           <button
             className={" rounded-sm bg-primary px-4 py-2 text-white shadow-md "}
             type="submit"
