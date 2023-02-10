@@ -50,11 +50,19 @@ list: publicProcedure
       limit: z.number().min(1).max(100),
     })
   )
-  .query(({ ctx, input }) => {
+  .query(async ({ ctx, input }) => {
     const { prisma } = ctx;
     const { cursor, limit } = input;
 
-    const posts = await prisma.post.findMany();
+    // Simple query
+
+    const posts = await prisma.post.findMany({
+      orderBy: [
+        {
+          createdAt: "desc",
+        },
+      ],
+    });
 
     return {
       posts,
