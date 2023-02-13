@@ -4,11 +4,14 @@ import { CreatePost } from "./CreatePost";
 
 export function Timeline() {
   // const {} = Trpc
-  const {} = api;
+  const { data } = api.post.timeline.useQuery({
+    limit: 2,
+  });
 
   return (
     <div>
       <CreatePost />
+      {JSON.stringify(data)}
     </div>
   );
 }
