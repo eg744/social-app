@@ -46,7 +46,7 @@ export const postRouter = createTRPCRouter({
         cursor: z.string().nullish(),
 
         // Intended number of posts fetched on each request
-        limit: z.number().min(1).max(100),
+        limit: z.number().min(1).max(100).default(10),
       })
     )
     .query(async ({ ctx, input }) => {
@@ -56,11 +56,23 @@ export const postRouter = createTRPCRouter({
       // Simple query
 
       const posts = await prisma.post.findMany({
+        // Pop off last post to get cursor
+        take: limit + 1,
         orderBy: [
           {
+            // Descending
             createdAt: "desc",
           },
         ],
+        include: {
+          author: {
+            select: {
+              name: true,
+              image: true,
+              id: true,
+            },
+          },
+        },
       });
 
       return {
