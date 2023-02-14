@@ -14,12 +14,16 @@ function Post({
 }) {
   return (
     <div>
-      <Image
-        src={post.author.image}
-        alt={`${post.author.name}'s profile picture`}
-        width={IMAGE_WIDTH}
-        height={IMAGE_HEIGHT}
-      />
+      {/* Display when image not null */}
+      {post.author.image && (
+        <Image
+          className={"rounded-full"}
+          src={post.author.image}
+          alt={`${post.author.name}'s profile picture`}
+          width={IMAGE_WIDTH}
+          height={IMAGE_HEIGHT}
+        />
+      )}
     </div>
   );
 }
