@@ -1,6 +1,9 @@
 // import Trpc from "../pages/api/trpc/[trpc]";
 import { api } from "../utils/api";
+import { RouterOutputs } from "../utils/api";
 import { CreatePost } from "./CreatePost";
+
+function Post({ post }: { post: RouterOutputs["post"]["timeline"]["posts"] }) {}
 
 export function Timeline() {
   // const {} = Trpc
