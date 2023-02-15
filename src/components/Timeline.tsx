@@ -1,48 +1,29 @@
-// import Trpc from "../pages/api/trpc/[trpc]";
 import Image from "next/image";
 import { api } from "../utils/api";
-// import { RouterOutputs } from "../utils/api";
 import { CreatePost } from "./CreatePost";
 import { Post } from "./Post";
-
-// const IMAGE_WIDTH = 48;
-// const IMAGE_HEIGHT = 48;
-
-// function Post({
-//   post,
-// }: {
-//   post: RouterOutputs["post"]["timeline"]["posts"][number];
-// }) {
-//   return (
-//     <div>
-//       {/* Display when image not null */}
-//       {post.author.image && (
-//         <Image
-//           className={"rounded-full"}
-//           src={post.author.image}
-//           alt={`${post.author.name}'s profile picture`}
-//           width={IMAGE_WIDTH}
-//           height={IMAGE_HEIGHT}
-//         />
-//       )}
-//     </div>
-//   );
-// }
 
 export function Timeline() {
   // const {} = Trpc
   const { data } = api.post.timeline.useQuery({
-    limit: 2,
+    // Posts shown per page
+    limit: 5,
   });
 
   return (
-    <div>
+    <div className={" "}>
       <CreatePost />
       {JSON.stringify(data)}
 
-      {data?.posts.map((post) => {
-        return <Post key={post.id} post={post} />;
-      })}
+      <div
+        className={
+          " rounded-md border-l-2 border-t-2 border-r-2 border-gray-600"
+        }
+      >
+        {data?.posts.map((post) => {
+          return <Post key={post.id} post={post} />;
+        })}
+      </div>
     </div>
   );
 }
