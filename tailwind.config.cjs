@@ -5,7 +5,8 @@ module.exports = {
     extend: {
       colors: {
         // Global custom colors here
-        primary: "#1e40af",
+        primaryblue: "#1e40af",
+        navyblue: "#000080",
       },
       fontFamily: {
         serif: ["Merriweather", "serif"],
