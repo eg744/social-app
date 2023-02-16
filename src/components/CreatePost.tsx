@@ -66,7 +66,9 @@ export function CreatePost() {
         <div className={" mt-4 flex justify-center"}>
           {/* Set bg-primary in tailwind config*/}
           <button
-            className={" rounded-sm bg-primary px-4 py-2 text-white shadow-md "}
+            className={
+              " rounded-sm bg-primaryblue px-4 py-2 text-white shadow-md hover:bg-navyblue "
+            }
             type="submit"
           >
             Make a Post
