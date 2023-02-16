@@ -10,8 +10,24 @@ import updateLocale from "dayjs/plugin/updateLocale";
 
 dayjs.extend(relativeTime);
 dayjs.extend(updateLocale);
-
-dayjs.extend(relativeTime);
+dayjs.updateLocale("en", {
+  // https://day.js.org/docs/en/customization/relative-time I was getting confused with the 'relativeTime' plugin
+  relativeTime: {
+    future: "in %s",
+    past: "%s ago",
+    s: "a few seconds",
+    m: "a minute",
+    mm: "%d minutes",
+    h: "an hour",
+    hh: "%d hours",
+    d: "a day",
+    dd: "%d days",
+    M: "a month",
+    MM: "%d months",
+    y: "a year",
+    yy: "%d years",
+  },
+});
 
 // dayjs().from(dayjs("1990-01-01")); // in 31 years
 // dayjs().from(dayjs("1990-01-01"), true); // 31 years
@@ -19,7 +35,6 @@ dayjs.extend(relativeTime);
 
 // dayjs().to(dayjs("1990-01-01")); // "31 years ago"
 // dayjs().toNow();
-dayjs.updateLocale("en", {});
 
 const PFP_IMAGE_WIDTH = 48;
 const PFP_IMAGE_HEIGHT = 48;
@@ -44,7 +59,7 @@ export function Post({
         )}
         <div className={"ml-4"}>
           <div className={" align-center flex flex-wrap"}>
-            <p className={"font-bold"}>{post.author.name}</p>
+            <p className={"mb-1 font-bold"}>{post.author.name}</p>
 
             {/* DayJS */}
             <p className={" text-sm  text-gray-800"}>
@@ -55,7 +70,7 @@ export function Post({
               - {new Date(post.createdAt).toISOString()}
             </p> */}
           </div>
-          <div className={" font-medium"}>{post.text}</div>
+          <div className={"pl-1 font-medium"}>{post.text}</div>
         </div>
       </div>
     </div>

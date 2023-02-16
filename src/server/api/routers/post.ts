@@ -1,6 +1,6 @@
 // Social post router
 
-import { z } from "zod";
+import { TypeOf, z } from "zod";
 import { postSchema } from "../../../components/CreatePost";
 import { createTRPCRouter, protectedProcedure, publicProcedure } from "../trpc";
 
@@ -74,6 +74,8 @@ export const postRouter = createTRPCRouter({
           },
         },
       });
+
+      let nextCursor: typeof cursor | undefined = undefined;
 
       return {
         posts,
