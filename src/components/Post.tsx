@@ -4,9 +4,8 @@ import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import updateLocale from "dayjs/plugin/updateLocale";
 
-// let relativeTime = require("dayjs/plugin/relativeTime");
-
-// dayjs().format();
+const PFP_IMAGE_WIDTH = 48;
+const PFP_IMAGE_HEIGHT = 48;
 
 dayjs.extend(relativeTime);
 dayjs.extend(updateLocale);
@@ -28,16 +27,6 @@ dayjs.updateLocale("en", {
     yy: "%d years",
   },
 });
-
-// dayjs().from(dayjs("1990-01-01")); // in 31 years
-// dayjs().from(dayjs("1990-01-01"), true); // 31 years
-// dayjs().fromNow();
-
-// dayjs().to(dayjs("1990-01-01")); // "31 years ago"
-// dayjs().toNow();
-
-const PFP_IMAGE_WIDTH = 48;
-const PFP_IMAGE_HEIGHT = 48;
 
 export function Post({
   post,
