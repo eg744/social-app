@@ -51,6 +51,7 @@ export const postRouter = createTRPCRouter({
     )
     .query(async ({ ctx, input }) => {
       const { prisma } = ctx;
+      // Send this cursor, limit to timeline
       const { cursor, limit } = input;
 
       // Simple query
@@ -64,6 +65,8 @@ export const postRouter = createTRPCRouter({
             createdAt: "desc",
           },
         ],
+        // Get cursor's id, if not undefined (beginning of post list on timeline)
+        cursor: cursor ? { id: cursor } : undefined,
         include: {
           author: {
             select: {
