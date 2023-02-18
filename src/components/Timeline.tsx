@@ -12,9 +12,10 @@ export function Timeline() {
 
   return (
     <div className={" "}>
+      {/* Cursor */}
+      next cursor: {data?.nextCursor}
       <CreatePost />
-      {JSON.stringify(data)}
-
+      {/* {JSON.stringify(data)} */}
       <div
         className={
           " rounded-md border-l-2 border-t-2 border-r-2 border-gray-600"

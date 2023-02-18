@@ -86,6 +86,7 @@ export const postRouter = createTRPCRouter({
 
       return {
         posts,
+        nextCursor,
       };
     }),
 });
