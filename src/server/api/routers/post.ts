@@ -77,6 +77,13 @@ export const postRouter = createTRPCRouter({
 
       let nextCursor: typeof cursor | undefined = undefined;
 
+      // Remove last post, get id and set cursor.
+      if (posts.length > limit) {
+        const currentItem = posts.pop() as (typeof posts)[number];
+
+        nextCursor = currentItem.id;
+      }
+
       return {
         posts,
       };
