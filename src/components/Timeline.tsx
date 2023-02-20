@@ -6,7 +6,7 @@ import { Post } from "./Post";
 export function Timeline() {
   //  Use infiniteQuery instead of usequery
   // const { data } = api.post.timeline.useQuery({
-  const { data, hasNextPage, fetchNextPage, isFetched } =
+  const { data, hasNextPage, fetchNextPage, isFetching } =
     api.post.timeline.useInfiniteQuery(
       {
         // Posts shown per page
@@ -16,6 +16,8 @@ export function Timeline() {
         getNextPageParam: (lastpage) => lastpage.nextCursor,
       }
     );
+
+  console.log("data", data);
 
   // Available pages of posts: fetches on request when using infinitequery
   const posts = data?.pages.flatMap((page) => page.posts) ?? [];
@@ -36,6 +38,16 @@ export function Timeline() {
         {posts.map((post) => {
           return <Post key={post.id} post={post} />;
         })}
+        {/* Option to load more posts if they exist */}
+        {hasNextPage || isFetching}
+        {
+          <button
+            onClick={() => fetchNextPage()}
+            disabled={!hasNextPage || isFetching}
+          >
+            Load more posts
+          </button>
+        }
       </div>
     </div>
   );
