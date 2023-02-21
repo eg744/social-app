@@ -40,12 +40,17 @@ export function Timeline() {
           return <Post key={post.id} post={post} />;
         })}
         {/* Option to load more posts if they exist */}
-        <button
-          onClick={() => fetchNextPage()}
-          disabled={!hasNextPage || isFetching}
-        >
-          Load more posts
-        </button>
+        <div className={" flex justify-center"}>
+          <button
+            className={
+              " m-2 rounded-md bg-primaryblue p-2 text-white  hover:bg-navyblue"
+            }
+            onClick={() => fetchNextPage()}
+            disabled={!hasNextPage || isFetching}
+          >
+            Load more posts
+          </button>
+        </div>
       </div>
     </div>
   );
