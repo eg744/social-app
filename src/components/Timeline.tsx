@@ -2,6 +2,7 @@ import Image from "next/image";
 import { api } from "../utils/api";
 import { CreatePost } from "./CreatePost";
 import { Post } from "./Post";
+import { LoadPostsButton } from "./timelineComponents/LoadPostsButton";
 
 export function Timeline() {
   //  Use infiniteQuery instead of usequery
@@ -34,20 +35,22 @@ export function Timeline() {
         }
       >
         {/* {data?.posts.map((post) => { */}
-        {/* Reinitialzie data when using the infinitequery */}
+        {/* Reinitialize data when using the infinitequery */}
         {posts.map((post) => {
           return <Post key={post.id} post={post} />;
         })}
         {/* Option to load more posts if they exist */}
-        {hasNextPage || isFetching}
-        {
+        <div className={" flex justify-center"}>
           <button
+            className={
+              " m-2 rounded-md bg-primaryblue p-2 text-white  hover:bg-navyblue"
+            }
             onClick={() => fetchNextPage()}
             disabled={!hasNextPage || isFetching}
           >
             Load more posts
           </button>
-        }
+        </div>
       </div>
     </div>
   );
