@@ -1,8 +1,39 @@
 import Image from "next/image";
+import { useEffect, useState } from "react";
 import { api } from "../utils/api";
 import { CreatePost } from "./CreatePost";
 import { Post } from "./Post";
 import { LoadPostsButton } from "./timelineComponents/LoadPostsButton";
+
+function useScrollPosition() {
+  const [scrollPosition, setScrollPosition] = useState(0);
+
+  function handleScroll() {
+    const windowHeight =
+      document.documentElement.scrollHeight -
+      document.documentElement.clientHeight;
+
+    const windowScroll =
+      document.body.scrollTop || document.documentElement.scrollTop;
+
+    // *100 for whole number
+    const distanceScrolled = (windowScroll / windowHeight) * 100;
+
+    setScrollPosition(distanceScrolled);
+  }
+
+  useEffect(() => {
+    // Passive means listener won't call preventDefault(). Aids infinite scroll functionality
+    window.addEventListener("scroll", handleScroll, { passive: true });
+
+    // Cleanup
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+
+  return scrollPosition;
+}
 
 export function Timeline() {
   //  Use infiniteQuery instead of usequery
@@ -43,7 +74,7 @@ export function Timeline() {
         <div className={" flex justify-center"}>
           <button
             className={
-              " m-2 rounded-md bg-primaryblue p-2 text-white  hover:bg-navyblue"
+              " m-2 rounded-sm bg-primaryblue p-2 text-white  hover:bg-navyblue"
             }
             onClick={() => fetchNextPage()}
             disabled={!hasNextPage || isFetching}
