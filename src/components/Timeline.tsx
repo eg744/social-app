@@ -40,7 +40,7 @@ function useScrollPosition() {
 export function Timeline() {
   const currentScrollPosition = useScrollPosition();
 
-  const debouncedScroll = debounce(useScrollPosition, 2000);
+  const debouncedScroll = debounce(useScrollPosition, 500);
   debouncedScroll;
 
   // const debouncedScroll = debounce(currentScrollPosition, 2000);
@@ -62,6 +62,14 @@ export function Timeline() {
 
   // Available pages of posts: fetches on request when using infinitequery
   const posts = data?.pages.flatMap((page) => page.posts) ?? [];
+
+  useEffect(() => {
+    // Percentage of page scrolled, is ok to fetch
+    if (currentScrollPosition > 85 && hasNextPage && !isFetching) {
+      fetchNextPage();
+    }
+    // Check scroll position, fetch if needed
+  }, [fetchNextPage, currentScrollPosition, hasNextPage, isFetching]);
 
   function debounce<Params extends any[]>(
     func: (...args: Params) => any,
