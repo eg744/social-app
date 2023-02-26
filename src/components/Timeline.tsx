@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { api } from "../utils/api";
 import { CreatePost } from "./CreatePost";
 import { Post } from "./Post";
+import { Debounce } from "./Debounce";
 import { LoadPostsButton } from "./timelineComponents/LoadPostsButton";
 
 function useScrollPosition() {
@@ -16,10 +17,11 @@ function useScrollPosition() {
     const windowScroll =
       document.body.scrollTop || document.documentElement.scrollTop;
 
-    // *100 for whole number
+    // * 100 for whole number
     const distanceScrolled = (windowScroll / windowHeight) * 100;
 
     setScrollPosition(distanceScrolled);
+    console.log("scrolled", distanceScrolled);
   }
 
   useEffect(() => {
@@ -36,6 +38,13 @@ function useScrollPosition() {
 }
 
 export function Timeline() {
+  const currentScrollPosition = useScrollPosition();
+
+  const debouncedScroll = debounce(useScrollPosition, 2000);
+  debouncedScroll;
+
+  // const debouncedScroll = debounce(currentScrollPosition, 2000);
+
   //  Use infiniteQuery instead of usequery
   // const { data } = api.post.timeline.useQuery({
   const { data, hasNextPage, fetchNextPage, isFetching } =
@@ -53,6 +62,19 @@ export function Timeline() {
 
   // Available pages of posts: fetches on request when using infinitequery
   const posts = data?.pages.flatMap((page) => page.posts) ?? [];
+
+  function debounce<Params extends any[]>(
+    func: (...args: Params) => any,
+    timeout: number
+  ): (...args: Params) => void {
+    let timer: NodeJS.Timeout;
+    return (...args: Params) => {
+      clearTimeout(timer);
+      timer = setTimeout(() => {
+        func(...args);
+      }, timeout);
+    };
+  }
 
   return (
     <div className={" "}>
