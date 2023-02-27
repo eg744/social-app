@@ -4,7 +4,6 @@ import { api } from "../utils/api";
 import { CreatePost } from "./CreatePost";
 import { Post } from "./Post";
 import { Debounce } from "./Debounce";
-import { LoadPostsButton } from "./timelineComponents/LoadPostsButton";
 
 function useScrollPosition() {
   const [scrollPosition, setScrollPosition] = useState(0);
@@ -50,7 +49,7 @@ export function Timeline() {
   const { data, hasNextPage, fetchNextPage, isFetching } =
     api.post.timeline.useInfiniteQuery(
       {
-        // Posts shown per page
+        // Posts shown per page or per request
         limit: 5,
       },
       {
@@ -87,7 +86,6 @@ export function Timeline() {
   return (
     <div className={" "}>
       {/* Cursor */}
-      {/* next cursor: {data?.nextCursor} */}
       <CreatePost />
       {/* {JSON.stringify(data)} */}
       <div
@@ -95,22 +93,30 @@ export function Timeline() {
           " rounded-md border-l-2 border-t-2 border-r-2 border-gray-600"
         }
       >
-        {/* {data?.posts.map((post) => { */}
+        {/* first iteration: show available posts and request more as needed: {data?.posts.map((post) => { */}
         {/* Reinitialize data when using the infinitequery */}
         {posts.map((post) => {
           return <Post key={post.id} post={post} />;
         })}
-        {/* Option to load more posts if they exist */}
+
+        {/* Appear at bottom when all pages fetched. */}
         <div className={" flex justify-center"}>
-          <button
-            className={
-              " m-2 rounded-sm bg-primaryblue p-2 text-white  hover:bg-navyblue"
-            }
-            onClick={() => fetchNextPage()}
-            disabled={!hasNextPage || isFetching}
-          >
-            Load more posts
-          </button>
+          {!hasNextPage && <p>No more items to load</p>}
+
+          {/* Next page button may be removed with auto load/ infinite scroll */}
+
+          {/* Option to load more posts if they exist */}
+          {hasNextPage && (
+            <button
+              className={
+                " m-2 rounded-sm bg-primaryblue p-2 text-white  hover:bg-navyblue"
+              }
+              onClick={() => fetchNextPage()}
+              disabled={!hasNextPage || isFetching}
+            >
+              Load more posts
+            </button>
+          )}
         </div>
       </div>
     </div>
