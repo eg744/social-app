@@ -101,7 +101,11 @@ export function Timeline() {
 
         {/* Appear at bottom when all pages fetched. */}
         <div className={" flex justify-center"}>
-          {!hasNextPage && <p>No more items to load</p>}
+          {!hasNextPage && (
+            <p className=" m-2 rounded-sm bg-primaryblue p-2 text-white">
+              No more posts to load
+            </p>
+          )}
 
           {/* Next page button may be removed with auto load/ infinite scroll */}
 

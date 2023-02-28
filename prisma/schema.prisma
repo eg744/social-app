@@ -60,6 +60,8 @@ model User {
     sessions      Session[]
     // Added "properties"
     post          Post[]
+
+    postLikes PostLike[]
 }
 
 model VerificationToken {
@@ -83,4 +85,21 @@ model Post {
     createdAt DateTime @default(now())
     // Updated when post object is updated 
     updatedAt DateTime @updatedAt
+
+    postLikes PostLike[]
+}
+
+model PostLike {
+    id     String @id @default(cuid())
+    post   Post   @relation(fields: [postId], references: [id])
+    postId String
+
+    user   User   @relation(fields: [userId], references: [id])
+    userId String
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    // Key stating that one user can only like a post once. No record can both share post, user ids.
+    @@unique([postId, userId])
 }
