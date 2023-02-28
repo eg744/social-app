@@ -84,3 +84,15 @@ model Post {
     // Updated when post object is updated 
     updatedAt DateTime @updatedAt
 }
+
+model PostLike {
+    id     String @id @default(cuid())
+    post   Post   @relation(fields: [postId], references: [id])
+    postId String
+
+    user   User   @relation(fields: [userId], references: [id])
+    userID String
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @default(now())
+}
