@@ -98,5 +98,8 @@ model PostLike {
     userId String
 
     createdAt DateTime @default(now())
-    updatedAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    // Key stating that one user can only like a post once. No record can both share post, user ids.
+    @@unique([postId, userId])
 }
