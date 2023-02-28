@@ -60,6 +60,8 @@ model User {
     sessions      Session[]
     // Added "properties"
     post          Post[]
+
+    postLikes PostLike[]
 }
 
 model VerificationToken {
@@ -83,6 +85,8 @@ model Post {
     createdAt DateTime @default(now())
     // Updated when post object is updated 
     updatedAt DateTime @updatedAt
+
+    postLikes PostLike[]
 }
 
 model PostLike {
@@ -91,7 +95,7 @@ model PostLike {
     postId String
 
     user   User   @relation(fields: [userId], references: [id])
-    userID String
+    userId String
 
     createdAt DateTime @default(now())
     updatedAt DateTime @default(now())
