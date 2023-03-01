@@ -4,6 +4,7 @@ import { api } from "../utils/api";
 import { CreatePost } from "./CreatePost";
 import { Post } from "./Post";
 import { Debounce } from "./Debounce";
+import { LikeButton } from "./timelineComponents/LikeButton";
 
 function useScrollPosition() {
   const [scrollPosition, setScrollPosition] = useState(0);

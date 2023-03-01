@@ -3,6 +3,7 @@ import Image from "next/image";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import updateLocale from "dayjs/plugin/updateLocale";
+import { LikeButton } from "./timelineComponents/LikeButton";
 
 const PFP_IMAGE_WIDTH = 48;
 const PFP_IMAGE_HEIGHT = 48;
@@ -61,6 +62,9 @@ export function Post({
           </div>
           <div className={"pl-1 font-medium"}>{post.text}</div>
         </div>
+      </div>
+      <div className=" ml-2.5 flex  justify-start p-2">
+        <LikeButton />
       </div>
     </div>
   );
