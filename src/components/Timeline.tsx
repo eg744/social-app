@@ -4,7 +4,7 @@ import { api } from "../utils/api";
 import { CreatePost } from "./CreatePost";
 import { Post } from "./Post";
 import { Debounce } from "./Debounce";
-import { BsFillHeartFill } from "react-icons/bs";
+import { LikeButton } from "./timelineComponents/LikeButton";
 
 function useScrollPosition() {
   const [scrollPosition, setScrollPosition] = useState(0);
@@ -123,18 +123,6 @@ export function Timeline() {
             </button>
           )}
         </div>
-      </div>
-
-      <div>
-        {/* Change mutation */}
-
-        <button>
-          <BsFillHeartFill
-            color="green"
-            size="1.5rem"
-            onClick={() => console.log("post liked")}
-          />
-        </button>
       </div>
     </div>
   );
