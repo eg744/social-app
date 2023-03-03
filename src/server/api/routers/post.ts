@@ -51,7 +51,7 @@ export const postRouter = createTRPCRouter({
     )
     .query(async ({ ctx, input }) => {
       const { prisma } = ctx;
-      // Send this cursor, limit to timeline
+      // Send this cursor and limit to timeline
       const { cursor, limit } = input;
 
       // Simple query
@@ -92,4 +92,21 @@ export const postRouter = createTRPCRouter({
         nextCursor,
       };
     }),
+
+  // "Like" functionality- user logged in to like a post
+  like: protectedProcedure
+    .input(
+      z.object({
+        postId: z.string(),
+      })
+    )
+    .mutation(async ({ ctx, input }) => {}),
+
+  unLike: protectedProcedure
+    .input(
+      z.object({
+        postId: z.string(),
+      })
+    )
+    .mutation(async ({ ctx, input }) => {}),
 });
