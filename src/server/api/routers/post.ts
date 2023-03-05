@@ -100,7 +100,27 @@ export const postRouter = createTRPCRouter({
         postId: z.string(),
       })
     )
-    .mutation(async ({ ctx, input }) => {}),
+    .mutation(async ({ ctx, input }) => {
+      // ID will exist under protectedProcedure
+      const userId = ctx.session.user.id;
+
+      const { prisma } = ctx;
+
+      return prisma.postLike.create({
+        data: {
+          post: {
+            connect: {
+              id: input.postId,
+            },
+          },
+          user: {
+            connect: {
+              id: userId,
+            },
+          },
+        },
+      });
+    }),
 
   unLike: protectedProcedure
     .input(
@@ -108,5 +128,7 @@ export const postRouter = createTRPCRouter({
         postId: z.string(),
       })
     )
-    .mutation(async ({ ctx, input }) => {}),
+    .mutation(async ({ ctx, input }) => {
+      const userId = ctx.session.user.id;
+    }),
 });
