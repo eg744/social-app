@@ -106,7 +106,7 @@ export const postRouter = createTRPCRouter({
 
       const { prisma } = ctx;
 
-      return prisma.like.create({
+      return prisma.postLike.create({
         data: {
           post: {
             connect: {
