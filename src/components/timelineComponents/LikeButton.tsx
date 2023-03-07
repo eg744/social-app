@@ -1,6 +1,10 @@
 import { BsFillHeartFill } from "react-icons/bs";
+import { api } from "../../utils/api";
 
 export function LikeButton() {
+  const likeMutation = api.post.like.useMutation().mutateAsync;
+  const unlikeMutation = api.post.unLike.useMutation().mutateAsync;
+
   return (
     <button className={" flex  items-center hover:scale-110"}>
       <BsFillHeartFill
