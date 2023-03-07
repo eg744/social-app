@@ -54,6 +54,9 @@ export const postRouter = createTRPCRouter({
       // Send this cursor and limit to timeline
       const { cursor, limit } = input;
 
+      // May not exist as timeline is public
+      const userId = ctx.session?.user?.id;
+
       // Simple query
 
       const posts = await prisma.post.findMany({
@@ -68,6 +71,11 @@ export const postRouter = createTRPCRouter({
         // Get cursor's id, if not undefined (beginning of post list on timeline)
         cursor: cursor ? { id: cursor } : undefined,
         include: {
+          postLikes: {
+            where: {
+              userId,
+            },
+          },
           author: {
             select: {
               name: true,
@@ -132,7 +140,7 @@ export const postRouter = createTRPCRouter({
       const userId = ctx.session.user.id;
       const { prisma } = ctx;
 
-      // Delete where postId/userId composite key has post id is input.postId and current userId (from the unique post,user id key in schema)
+      // Delete where postId/userId composite key has post id is input.postId and current userId (from the unique post id in user id key from schema)
       return prisma.postLike.delete({
         where: {
           postId_userId: {
