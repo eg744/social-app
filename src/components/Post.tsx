@@ -1,4 +1,4 @@
-import { RouterOutputs } from "../utils/api";
+import { api, RouterOutputs } from "../utils/api";
 import Image from "next/image";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
@@ -34,6 +34,10 @@ export function Post({
 }: {
   post: RouterOutputs["post"]["timeline"]["posts"][number];
 }) {
+  // Information about current "like" status of post from router
+  const likeMutation = api.post.like.useMutation().mutateAsync;
+  const unlikeMutation = api.post.unLike.useMutation().mutateAsync;
+
   return (
     <div className={"mb-4  border-b-2 border-gray-600"}>
       <div className={"flex p-2"}>

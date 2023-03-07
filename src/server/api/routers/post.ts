@@ -93,7 +93,7 @@ export const postRouter = createTRPCRouter({
       };
     }),
 
-  // "Like" functionality- user logged in to like a post
+  // "Like/ unlike" functionality- user must be logged in to interact with post
   like: protectedProcedure
     .input(
       z.object({
@@ -101,7 +101,7 @@ export const postRouter = createTRPCRouter({
       })
     )
     .mutation(async ({ ctx, input }) => {
-      // ID will exist under protectedProcedure
+      // ID guaranteed to exist due to protectedProcedure
       const userId = ctx.session.user.id;
 
       const { prisma } = ctx;
@@ -130,5 +130,16 @@ export const postRouter = createTRPCRouter({
     )
     .mutation(async ({ ctx, input }) => {
       const userId = ctx.session.user.id;
+      const { prisma } = ctx;
+
+      // Delete where postId/userId composite key has post id is input.postId and current userId (from the unique post,user id key in schema)
+      return prisma.postLike.delete({
+        where: {
+          postId_userId: {
+            postId: input.postId,
+            userId,
+          },
+        },
+      });
     }),
 });
