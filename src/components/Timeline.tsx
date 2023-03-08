@@ -21,7 +21,7 @@ function useScrollPosition() {
     const distanceScrolled = (windowScroll / windowHeight) * 100;
 
     setScrollPosition(distanceScrolled);
-    console.log("scrolled", distanceScrolled);
+    // console.log("scrolled", distanceScrolled);
   }
 
   useEffect(() => {
@@ -58,7 +58,7 @@ export function Timeline() {
       }
     );
 
-  console.log("data", data);
+  // console.log("data", data);
 
   // Available pages of posts: fetches on request when using infinitequery
   const posts = data?.pages.flatMap((page) => page.posts) ?? [];
@@ -83,6 +83,8 @@ export function Timeline() {
       }, timeout);
     };
   }
+
+  console.log("posts", posts);
 
   return (
     <div className={" "}>
