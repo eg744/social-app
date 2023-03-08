@@ -75,6 +75,9 @@ export const postRouter = createTRPCRouter({
             where: {
               userId,
             },
+            select: {
+              userId: true,
+            },
           },
           author: {
             select: {
