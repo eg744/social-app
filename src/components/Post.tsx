@@ -1,4 +1,5 @@
 import { api, RouterOutputs } from "../utils/api";
+import { QueryClient } from "@tanstack/react-query";
 import Image from "next/image";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
@@ -31,8 +32,10 @@ dayjs.updateLocale("en", {
 
 export function Post({
   post,
+  currentClient,
 }: {
   post: RouterOutputs["post"]["timeline"]["posts"][number];
+  currentClient: QueryClient;
 }) {
   // Information about current "like" status of post from router
 
@@ -66,7 +69,7 @@ export function Post({
         </div>
       </div>
       <div className=" ml-2.5 flex  justify-start p-2">
-        <LikeButton {...post} />
+        <LikeButton {...{ currentClient, ...post }} />
       </div>
     </div>
   );

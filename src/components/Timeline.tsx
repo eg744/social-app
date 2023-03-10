@@ -5,6 +5,7 @@ import { CreatePost } from "./CreatePost";
 import { Post } from "./Post";
 import { Debounce } from "./Debounce";
 import { LikeButton } from "./timelineComponents/LikeButton";
+import { useQueryClient } from "@tanstack/react-query";
 
 function useScrollPosition() {
   const [scrollPosition, setScrollPosition] = useState(0);
@@ -58,6 +59,8 @@ export function Timeline() {
       }
     );
 
+  const currentClient = useQueryClient();
+
   // console.log("data", data);
 
   // Available pages of posts: fetches on request when using infinitequery
@@ -90,7 +93,6 @@ export function Timeline() {
     <div className={" "}>
       {/* Cursor */}
       <CreatePost />
-      {/* {JSON.stringify(data)} */}
       <div
         className={
           " rounded-md border-l-2 border-t-2 border-r-2 border-gray-600"
@@ -99,7 +101,9 @@ export function Timeline() {
         {/* first iteration: show available posts and request more as needed: {data?.posts.map((post) => { */}
         {/* Reinitialize data when using the infinitequery */}
         {posts.map((post) => {
-          return <Post key={post.id} post={post} />;
+          return (
+            <Post key={post.id} post={post} currentClient={currentClient} />
+          );
         })}
 
         {/* Appear at bottom when all pages fetched. */}
