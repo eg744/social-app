@@ -64,7 +64,6 @@ export function Post({
   post: RouterOutputs["post"]["timeline"]["posts"][number];
   currentClient: QueryClient;
 }) {
-  // Information about current "like" status of post from router
   const likeMutation = api.post.like.useMutation({
     onSuccess: (data, vars) => {
       updateCache({ client: currentClient, vars, data, action: "like" });
@@ -72,7 +71,11 @@ export function Post({
   }).mutateAsync;
 
   // Delete like record
-  const unLikeMutation = api.post.unLike.useMutation().mutateAsync;
+  const unLikeMutation = api.post.unLike.useMutation({
+    onSuccess: (data, vars) => {
+      updateCache({ client: currentClient, vars, data, action: "unlike" });
+    },
+  }).mutateAsync;
   // Displayed post liked by logged in user
   const isLiked = post.postLikes.length > 0;
 
