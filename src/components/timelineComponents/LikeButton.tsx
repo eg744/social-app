@@ -30,10 +30,10 @@ function updateCache({
   );
 }
 
-export function LikeButton({ ...post }, { currentClient }) {
+export function LikeButton({ currentClient, ...post }) {
   const likeMutation = api.post.like.useMutation({
-    onSuccess: () => {
-      updateCache({});
+    onSuccess: (data, vars) => {
+      updateCache({ client, vars, data, action: "like" });
     },
   }).mutateAsync;
 

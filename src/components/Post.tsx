@@ -4,6 +4,8 @@ import Image from "next/image";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import updateLocale from "dayjs/plugin/updateLocale";
+import { BsFillHeartFill } from "react-icons/bs";
+
 import { LikeButton } from "./timelineComponents/LikeButton";
 
 const PFP_IMAGE_WIDTH = 48;
@@ -30,6 +32,31 @@ dayjs.updateLocale("en", {
   },
 });
 
+function updateCache({
+  client,
+  vars,
+  data,
+  action,
+}: {
+  client: QueryClient;
+  vars: {
+    postId: string;
+  };
+  data: {
+    userId: string;
+  };
+  action: "like" | "unlike";
+}) {
+  // Pass array with query key and object with vars the query key is called with
+  client.setQueryData(
+    [["post", "timeline"], { limit: 10 }],
+    // Get previous data from callback
+    (previousData: any) => {
+      console.log("previous data", { previousData });
+    }
+  );
+}
+
 export function Post({
   post,
   currentClient,
@@ -38,6 +65,16 @@ export function Post({
   currentClient: QueryClient;
 }) {
   // Information about current "like" status of post from router
+  const likeMutation = api.post.like.useMutation({
+    onSuccess: (data, vars) => {
+      updateCache({ client: currentClient, vars, data, action: "like" });
+    },
+  }).mutateAsync;
+
+  // Delete like record
+  const unLikeMutation = api.post.unLike.useMutation().mutateAsync;
+  // Displayed post liked by logged in user
+  const isLiked = post.postLikes.length > 0;
 
   return (
     <div className={"mb-4  border-b-2 border-gray-600"}>
@@ -69,7 +106,28 @@ export function Post({
         </div>
       </div>
       <div className=" ml-2.5 flex  justify-start p-2">
-        <LikeButton {...{ currentClient, ...post }} />
+        <button className={" flex  items-center hover:scale-110"}>
+          <BsFillHeartFill
+            color={isLiked ? "#8f181e" : "#000"}
+            // color="#8f181e"
+            size="1.5rem"
+            onClick={() => {
+              console.log("post liked", post.id);
+
+              if (isLiked) {
+                unLikeMutation({
+                  postId: post.id,
+                });
+                return;
+              }
+              likeMutation({
+                postId: post.id,
+              });
+            }}
+          />
+          <span className={" m-1   text-sm text-gray-900"}>{10}</span>
+        </button>
+        {/* <LikeButton {...{ currentClient, ...post }} /> */}
       </div>
     </div>
   );
