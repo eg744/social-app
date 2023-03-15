@@ -49,7 +49,17 @@ function updateCache({
 }) {
   // Pass array with query key and object with vars the query key is called with
   client.setQueryData(
-    [["post", "timeline"], { limit: 10 }],
+    // Previous args. new args are exact query from the queryclient devtools
+    // [["post", "timeline"], { limit: 10 }],
+    [
+      ["post", "timeline"],
+      {
+        input: {
+          limit: 5,
+        },
+        type: "infinite",
+      },
+    ],
     // Get previous data from callback
     (previousData: any) => {
       console.log("previous data", { previousData });
@@ -64,6 +74,7 @@ export function Post({
   post: RouterOutputs["post"]["timeline"]["posts"][number];
   currentClient: QueryClient;
 }) {
+  // Update like record
   const likeMutation = api.post.like.useMutation({
     onSuccess: (data, vars) => {
       updateCache({ client: currentClient, vars, data, action: "like" });
