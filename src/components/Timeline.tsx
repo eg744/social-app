@@ -38,40 +38,40 @@ function useScrollPosition() {
   return scrollPosition;
 }
 
-function updateCache({
-  client,
-  vars,
-  data,
-  action,
-}: {
-  client: QueryClient;
-  vars: {
-    postId: string;
-  };
-  data: {
-    userId: string;
-  };
-  action: "like" | "unlike";
-}) {
-  // Pass array with query key and object with vars the query key is called with
-  client.setQueryData(
-    [["post", "timeline"], { limit: 10 }],
-    // Get previous data from callback
-    (previousData: any) => {
-      console.log("previous data", { previousData });
-    }
-  );
-}
+// function updateCache({
+//   client,
+//   vars,
+//   data,
+//   action,
+// }: {
+//   client: QueryClient;
+//   vars: {
+//     postId: string;
+//   };
+//   data: {
+//     userId: string;
+//   };
+//   action: "like" | "unlike";
+// }) {
+//   // Pass array with query key and object with vars the query key is called with
+//   client.setQueryData(
+//     [["post", "timeline"], { limit: 10 }],
+//     // Get previous data from callback
+//     (previousData: any) => {
+//       console.log("previous data", { previousData });
+//     }
+//   );
+// }
 
 export function Timeline() {
-  const likeMutation = api.post.like.useMutation({
-    onSuccess: (data, vars) => {
-      updateCache({ client, vars, data, action: "like" });
-    },
-  }).mutateAsync;
+  // const likeMutation = api.post.like.useMutation({
+  //   onSuccess: (data, vars) => {
+  //     updateCache({ client, vars, data, action: "like" });
+  //   },
+  // }).mutateAsync;
 
-  // Delete like record
-  const unLikeMutation = api.post.unLike.useMutation().mutateAsync;
+  // // Delete like record
+  // const unLikeMutation = api.post.unLike.useMutation().mutateAsync;
   const currentScrollPosition = useScrollPosition();
 
   const debouncedScroll = debounce(useScrollPosition, 500);
@@ -141,7 +141,7 @@ export function Timeline() {
         <div className={" flex justify-center"}>
           {!hasNextPage && (
             <p className=" m-2 rounded-sm bg-primaryblue p-2 text-white">
-              No more posts to load
+              End of feed
             </p>
           )}
 

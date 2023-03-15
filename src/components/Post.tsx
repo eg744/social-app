@@ -1,5 +1,5 @@
 import { api, RouterOutputs } from "../utils/api";
-import { QueryClient } from "@tanstack/react-query";
+import { InfiniteData, QueryClient } from "@tanstack/react-query";
 import Image from "next/image";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
@@ -49,7 +49,7 @@ function updateCache({
 }) {
   // Pass array with query key and object with vars the query key is called with
   client.setQueryData(
-    // Previous args. new args are exact query from the queryclient devtools
+    // Previous args. new args is the exact query from the queryclient devtools
     // [["post", "timeline"], { limit: 10 }],
     [
       ["post", "timeline"],
@@ -63,6 +63,9 @@ function updateCache({
     // Get previous data from callback
     (previousData: any) => {
       console.log("previous data", { previousData });
+      const currentData = previousData as InfiniteData<
+        RouterOutputs["post"]["timeline"]
+      >;
     }
   );
 }
