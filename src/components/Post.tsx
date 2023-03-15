@@ -49,7 +49,7 @@ function updateCache({
 }) {
   // Pass array with query key and object with vars the query key is called with
   client.setQueryData(
-    // Previous args. new args is the exact query from the queryclient devtools
+    // Previous args. new args is the exact query from the queryclient
     // [["post", "timeline"], { limit: 10 }],
     [
       ["post", "timeline"],
@@ -66,6 +66,19 @@ function updateCache({
       const currentData = previousData as InfiniteData<
         RouterOutputs["post"]["timeline"]
       >;
+
+      const currentPosts = currentData.pages.map((page) => {
+        return {
+          posts: page.posts.map((post) => {
+            if (post.id == vars.postId) {
+              return {
+                ...post,
+                postLikes: [data.userId],
+              };
+            }
+          }),
+        };
+      });
     }
   );
 }
