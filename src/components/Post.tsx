@@ -62,7 +62,6 @@ function updateCache({
     ],
     // Get previous data from callback
     (previousData: any) => {
-      console.log("previous data", { previousData });
       const currentData = previousData as InfiniteData<
         RouterOutputs["post"]["timeline"]
       >;
@@ -73,12 +72,19 @@ function updateCache({
             if (post.id == vars.postId) {
               return {
                 ...post,
-                postLikes: [data.userId],
+                // Update the like record or delete if unliked
+                postLikes: action === "like" ? [data.userId] : [],
               };
             }
+            // Post not modified
+            return post;
           }),
         };
       });
+      return {
+        ...currentData,
+        pages: currentPosts,
+      };
     }
   );
 }
