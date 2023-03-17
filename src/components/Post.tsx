@@ -162,7 +162,9 @@ export function Post({
               });
             }}
           />
-          <span className={" m-1   text-sm text-gray-900"}>{10}</span>
+          <span className={" m-1   text-sm text-gray-900"}>
+            {post.postLikes.length}
+          </span>
         </button>
         {/* <LikeButton {...{ currentClient, ...post }} /> */}
       </div>
