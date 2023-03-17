@@ -140,9 +140,7 @@ export function Timeline() {
         {/* Appear at bottom when all pages fetched. */}
         <div className={" flex justify-center"}>
           {!hasNextPage && (
-            <p className=" m-2 rounded-sm bg-primaryblue p-2 text-white">
-              End of feed
-            </p>
+            <p className=" m-2 rounded-sm  p-2 text-black">End of feed</p>
           )}
 
           {/* Next page button may be removed with auto load/ infinite scroll */}
