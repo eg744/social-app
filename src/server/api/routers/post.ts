@@ -54,21 +54,20 @@ export const postRouter = createTRPCRouter({
       // Send this cursor and limit to timeline
       const { cursor, limit } = input;
 
-      // May not exist as timeline is public
+      // UserId may not exist as timeline is public
       const userId = ctx.session?.user?.id;
 
       // Simple query
-
       const posts = await prisma.post.findMany({
         // Pop off last post to get cursor
         take: limit + 1,
         orderBy: [
           {
-            // Descending
+            // Descending order
             createdAt: "desc",
           },
         ],
-        // Get cursor's id, if not undefined (beginning of post list on timeline)
+        // Get cursor's id, if not undefined (beginning of post list on timeline may be undefined.)
         cursor: cursor ? { id: cursor } : undefined,
         include: {
           postLikes: {
@@ -84,6 +83,13 @@ export const postRouter = createTRPCRouter({
               name: true,
               image: true,
               id: true,
+            },
+          },
+
+          // Relation count
+          _count: {
+            select: {
+              postLikes: true,
             },
           },
         },

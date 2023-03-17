@@ -17,6 +17,9 @@ module.exports = {
           144: "36rem",
         },
       },
+      animation: {
+        "ping-active": "ping .2s linear ",
+      },
     },
   },
   plugins: [],

@@ -130,7 +130,7 @@ export function Post({
             <p className={"mb-1 font-bold"}>{post.author.name}</p>
 
             {/* DayJS */}
-            <p className={" text-sm  text-gray-800"}>
+            <p className={" m-0.5 text-sm text-gray-800"}>
               - {dayjs(post.createdAt).fromNow()}
             </p>
             {/* Datetime to ISO string, not react node.  */}
@@ -142,8 +142,9 @@ export function Post({
         </div>
       </div>
       <div className=" ml-2.5 flex  justify-start p-2">
-        <button className={" flex  items-center hover:scale-110"}>
+        <button className={" flex items-center hover:scale-110"}>
           <BsFillHeartFill
+            className={" active:animate-ping-active"}
             color={isLiked ? "#8f181e" : "#000"}
             // color="#8f181e"
             size="1.5rem"
@@ -161,7 +162,9 @@ export function Post({
               });
             }}
           />
-          <span className={" m-1   text-sm text-gray-900"}>{10}</span>
+          <span className={" m-1   text-sm text-gray-900"}>
+            {post.postLikes.length}
+          </span>
         </button>
         {/* <LikeButton {...{ currentClient, ...post }} /> */}
       </div>
