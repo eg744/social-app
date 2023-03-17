@@ -66,6 +66,8 @@ function updateCache({
         RouterOutputs["post"]["timeline"]
       >;
 
+      const likeValue = action === "like" ? 1 : -1;
+
       const currentPosts = currentData.pages.map((page) => {
         return {
           posts: page.posts.map((post) => {
@@ -74,6 +76,9 @@ function updateCache({
                 ...post,
                 // Update the like record or delete if unliked
                 postLikes: action === "like" ? [data.userId] : [],
+                _count: {
+                  postLikes: post._count.postLikes + likeValue,
+                },
               };
             }
             // Post not modified
@@ -163,7 +168,9 @@ export function Post({
             }}
           />
           <span className={" m-1   text-sm text-gray-900"}>
-            {post.postLikes.length}
+            {/* Display likes: updated in cache */}
+            {post._count.postLikes}
+            {/* {post.postLikes.length} */}
           </span>
         </button>
         {/* <LikeButton {...{ currentClient, ...post }} /> */}
