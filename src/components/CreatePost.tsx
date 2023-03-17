@@ -28,13 +28,13 @@ export function CreatePost() {
   const { mutateAsync, mutate } = api.post.create.useMutation();
   // Optional properties: const mutation = api.post.create.useMutation().mutateAsync;
 
-  async function handleSubmit(event) {
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     // Test passing string. Update error
     try {
       await postSchema.parse({ text });
-    } catch (event) {
+    } catch (event: any) {
       setError(event.message);
       return;
     }
@@ -46,7 +46,7 @@ export function CreatePost() {
     // }
     // else
     mutateAsync({ text });
-  }
+  };
 
   return (
     <>
