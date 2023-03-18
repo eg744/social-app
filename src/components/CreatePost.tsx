@@ -24,8 +24,17 @@ export function CreatePost() {
   const [text, setText] = useState("");
   const [error, setError] = useState("");
 
+  // Using for cache invalidation
+  const utils = api.useContext();
+
   // /api gives access to post.create:protectedProcedure
-  const { mutateAsync, mutate } = api.post.create.useMutation();
+  const { mutateAsync, mutate } = api.post.create.useMutation({
+    onSuccess: () => {
+      // Invalidating the query when new post created, forces cache to update (New post displayed immediately)
+      setText("");
+      utils.post.timeline.invalidate();
+    },
+  });
   // Optional properties: const mutation = api.post.create.useMutation().mutateAsync;
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -57,10 +66,11 @@ export function CreatePost() {
         onSubmit={handleSubmit}
       >
         <textarea
+          placeholder="What's on your mind?"
           onChange={(event) => {
             setText(event.target.value);
           }}
-          className={"w-full rounded-sm shadow-sm"}
+          className={" w-full rounded-sm p-1 shadow-sm"}
         ></textarea>
 
         <div className={" mt-4 flex justify-center"}>
