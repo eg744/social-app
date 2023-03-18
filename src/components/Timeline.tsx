@@ -6,6 +6,7 @@ import { Post } from "./Post";
 import { Debounce } from "./Debounce";
 import { LikeButton } from "./timelineComponents/LikeButton";
 import { useQueryClient, QueryClient } from "@tanstack/react-query";
+import Link from "next/link";
 
 function useScrollPosition() {
   const [scrollPosition, setScrollPosition] = useState(0);
