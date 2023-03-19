@@ -3,9 +3,6 @@
 import { useState } from "react";
 import { object, string } from "zod";
 
-// ? older version was using something like this. delete soon
-import Trpc from "../pages/api/trpc/[trpc]";
-
 import { api } from "../utils/api";
 
 export const postSchema = object({

@@ -43,6 +43,13 @@ export const postRouter = createTRPCRouter({
   timeline: publicProcedure
     .input(
       z.object({
+        // Filtered users by name
+        where: z
+          .object({
+            name: z.string().optional(),
+          })
+          .optional(),
+
         cursor: z.string().nullish(),
 
         // Intended number of posts fetched on each request
@@ -118,7 +125,7 @@ export const postRouter = createTRPCRouter({
       })
     )
     .mutation(async ({ ctx, input }) => {
-      // ID guaranteed to exist due to protectedProcedure
+      // ID guaranteed to exist here due to protectedProcedure
       const userId = ctx.session.user.id;
 
       const { prisma } = ctx;
