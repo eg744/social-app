@@ -47,9 +47,11 @@ export const postRouter = createTRPCRouter({
         where: z
           .object({
             // Filter attributes of author: name? id?
-            author: z.object({
-              name: z.string().optional(),
-            }),
+            author: z
+              .object({
+                name: z.string().optional(),
+              })
+              .optional(),
           })
           .optional(),
 

@@ -1,6 +1,6 @@
 import Image from "next/image";
 import { useEffect, useState } from "react";
-import { api } from "../utils/api";
+import { api, RouterInputs } from "../utils/api";
 import { CreatePost } from "./CreatePost";
 import { Post } from "./Post";
 import { Debounce } from "./Debounce";
@@ -64,7 +64,12 @@ function useScrollPosition() {
 //   );
 // }
 
-export function Timeline() {
+export function Timeline({
+  where = {},
+}: {
+  // Post router, timeline query, where property
+  where: RouterInputs["post"]["timeline"]["where"];
+}) {
   // const likeMutation = api.post.like.useMutation({
   //   onSuccess: (data, vars) => {
   //     updateCache({ client, vars, data, action: "like" });
@@ -80,8 +85,6 @@ export function Timeline() {
 
   // const debouncedScroll = debounce(currentScrollPosition, 2000);
 
-  //  Use infiniteQuery instead of usequery
-  // const { data } = api.post.timeline.useQuery({
   const { data, hasNextPage, fetchNextPage, isFetching } =
     api.post.timeline.useInfiniteQuery(
       {
