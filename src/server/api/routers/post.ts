@@ -74,7 +74,7 @@ export const postRouter = createTRPCRouter({
         // Pop off last post to get cursor
         take: limit + 1,
 
-        // Where is filtering. Defined by where clause. Currently where author's name is string
+        // Where is filtering. Defined by where clause. Currently where author's name string
         where,
 
         orderBy: [

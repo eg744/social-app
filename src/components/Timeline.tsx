@@ -90,6 +90,8 @@ export function Timeline({
       {
         // Posts shown per page or per request
         limit: 5,
+        // Pass in currently filtered user to timeline
+        where,
       },
       {
         getNextPageParam: (lastpage) => lastpage.nextCursor,

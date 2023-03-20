@@ -57,6 +57,7 @@ function updateCache({
       {
         input: {
           limit: 5,
+          where: {},
         },
         type: "infinite",
       },

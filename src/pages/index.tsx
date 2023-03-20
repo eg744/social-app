@@ -3,6 +3,7 @@ import Head from "next/head";
 import Link from "next/link";
 import { NavBar } from "../components/nav/NavBar";
 import { signIn, signOut, useSession } from "next-auth/react";
+import { useRouter } from "next/router";
 
 import { api } from "../utils/api";
 import { Timeline } from "../components/Timeline";
@@ -23,9 +24,7 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <NavBar />
-
       <Timeline />
-
       {console.log(JSON.stringify(session))}
       {/* Example main. will not work without the example query. */}
       {/* <main className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-b from-[#2e026d] to-[#15162c]">
