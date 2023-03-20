@@ -43,10 +43,13 @@ export const postRouter = createTRPCRouter({
   timeline: publicProcedure
     .input(
       z.object({
-        // Filtered users by name
+        // Filtered users by attribute (optional)
         where: z
           .object({
-            name: z.string().optional(),
+            // Filter attributes of author: name? id?
+            author: z.object({
+              name: z.string().optional(),
+            }),
           })
           .optional(),
 
@@ -59,7 +62,7 @@ export const postRouter = createTRPCRouter({
     .query(async ({ ctx, input }) => {
       const { prisma } = ctx;
       // Send this cursor and limit to timeline
-      const { cursor, limit } = input;
+      const { cursor, limit, where } = input;
 
       // UserId may not exist as timeline is public
       const userId = ctx.session?.user?.id;
@@ -68,6 +71,10 @@ export const postRouter = createTRPCRouter({
       const posts = await prisma.post.findMany({
         // Pop off last post to get cursor
         take: limit + 1,
+
+        // Where is filtering. Defined by where clause. Currently where author's name is string
+        where,
+
         orderBy: [
           {
             // Descending order
