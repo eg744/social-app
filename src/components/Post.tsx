@@ -152,9 +152,6 @@ export function Post({
               - {dayjs(post.createdAt).fromNow()}
             </p>
             {/* Datetime to ISO string, not react node.  */}
-            {/* <p className={"text-sm  text-gray-800"}>
-              - {new Date(post.createdAt).toISOString()}
-            </p> */}
           </div>
           <div className={"pl-1 font-medium"}>{post.text}</div>
         </div>
@@ -181,10 +178,8 @@ export function Post({
           <span className={" m-1   text-sm text-gray-900"}>
             {/* Display likes: updated in cache */}
             {post._count.postLikes}
-            {/* {post.postLikes.length} */}
           </span>
         </button>
-        {/* <LikeButton {...{ currentClient, ...post }} /> */}
       </div>
     </div>
   );
