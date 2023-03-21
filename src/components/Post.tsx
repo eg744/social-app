@@ -6,6 +6,7 @@ import relativeTime from "dayjs/plugin/relativeTime";
 import updateLocale from "dayjs/plugin/updateLocale";
 import { BsFillHeartFill } from "react-icons/bs";
 import Link from "next/link";
+import { RouterInputs } from "../utils/api";
 
 import { LikeButton } from "./timelineComponents/LikeButton";
 
@@ -38,6 +39,7 @@ function updateCache({
   vars,
   data,
   action,
+  input,
 }: {
   client: QueryClient;
   vars: {
@@ -47,18 +49,17 @@ function updateCache({
     userId: string;
   };
   action: "like" | "unlike";
+  // Inputs are limit, post by author filters 'where'
+  input: RouterInputs["post"]["timeline"];
 }) {
   // Pass array with query key and object with vars the query key is called with
   client.setQueryData(
-    // Previous args. new args is the exact query from the queryclient
-    // [["post", "timeline"], { limit: 10 }],
+    // New args is the exact query from the queryclient
+    // previous args were: [["post", "timeline"], { limit: 10 }],
     [
       ["post", "timeline"],
       {
-        input: {
-          limit: 5,
-          where: {},
-        },
+        input,
         type: "infinite",
       },
     ],
@@ -99,21 +100,29 @@ function updateCache({
 export function Post({
   post,
   currentClient,
+  input,
 }: {
   post: RouterOutputs["post"]["timeline"]["posts"][number];
   currentClient: QueryClient;
+  input: RouterInputs["post"]["timeline"];
 }) {
   // Update like record
   const likeMutation = api.post.like.useMutation({
     onSuccess: (data, vars) => {
-      updateCache({ client: currentClient, vars, data, action: "like" });
+      updateCache({ client: currentClient, vars, data, action: "like", input });
     },
   }).mutateAsync;
 
   // Delete like record
   const unLikeMutation = api.post.unLike.useMutation({
     onSuccess: (data, vars) => {
-      updateCache({ client: currentClient, vars, data, action: "unlike" });
+      updateCache({
+        client: currentClient,
+        vars,
+        data,
+        action: "unlike",
+        input,
+      });
     },
   }).mutateAsync;
   // Displayed post liked by logged in user

@@ -6,7 +6,8 @@ import { useRouter } from "next/router";
 export default function UserPage() {
   const router = useRouter();
 
-  const name = router.query.name as string;
+  const name = router.query.username as string;
+  console.log("query", router);
 
   return (
     <div>

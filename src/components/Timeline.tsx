@@ -7,6 +7,9 @@ import { Debounce } from "./Debounce";
 import { LikeButton } from "./timelineComponents/LikeButton";
 import { useQueryClient, QueryClient } from "@tanstack/react-query";
 import Link from "next/link";
+import { log } from "console";
+
+const LIMIT: number = 10;
 
 function useScrollPosition() {
   const [scrollPosition, setScrollPosition] = useState(0);
@@ -39,6 +42,7 @@ function useScrollPosition() {
   return scrollPosition;
 }
 
+// Update cache on post.ts router
 // function updateCache({
 //   client,
 //   vars,
@@ -89,7 +93,7 @@ export function Timeline({
     api.post.timeline.useInfiniteQuery(
       {
         // Posts shown per page or per request
-        limit: 5,
+        limit: LIMIT,
         // Pass in currently filtered user to timeline
         where,
       },
@@ -139,7 +143,15 @@ export function Timeline({
         {/* Reinitialize data when using the infinitequery */}
         {posts.map((post) => {
           return (
-            <Post key={post.id} post={post} currentClient={currentClient} />
+            <Post
+              key={post.id}
+              post={post}
+              currentClient={currentClient}
+              input={{
+                where,
+                limit: LIMIT,
+              }}
+            />
           );
         })}
 
