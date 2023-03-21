@@ -129,17 +129,21 @@ export function Post({
   const isLiked = post.postLikes.length > 0;
 
   return (
-    <div className={"mb-4  border-b-2 border-gray-600"}>
-      <div className={"flex p-2"}>
+    <div className={" mb-4  border-b-2 border-gray-600"}>
+      <div className={" relative flex p-3"}>
         {/* Display when image not null */}
         {post.author.image && (
-          <Image
-            className={"rounded-full"}
-            src={post.author.image}
-            alt={`${post.author.name}'s profile picture`}
-            width={PFP_IMAGE_WIDTH}
-            height={PFP_IMAGE_HEIGHT}
-          />
+          <div className={" h-full pl-1"}>
+            <Image
+              className={" rounded-full"}
+              src={post.author.image}
+              alt={`${post.author.name}'s profile picture`}
+              // style={{ height: "100%", width: "100%" }}
+
+              width={PFP_IMAGE_WIDTH}
+              height={PFP_IMAGE_HEIGHT}
+            />
+          </div>
         )}
         <div className={"ml-4"}>
           <div className={" align-center flex flex-wrap"}>
