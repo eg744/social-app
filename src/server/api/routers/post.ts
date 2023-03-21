@@ -43,6 +43,18 @@ export const postRouter = createTRPCRouter({
   timeline: publicProcedure
     .input(
       z.object({
+        // Filtered users by attribute (optional)
+        where: z
+          .object({
+            // Filter attributes of author: name? id?
+            author: z
+              .object({
+                name: z.string().optional(),
+              })
+              .optional(),
+          })
+          .optional(),
+
         cursor: z.string().nullish(),
 
         // Intended number of posts fetched on each request
@@ -52,7 +64,7 @@ export const postRouter = createTRPCRouter({
     .query(async ({ ctx, input }) => {
       const { prisma } = ctx;
       // Send this cursor and limit to timeline
-      const { cursor, limit } = input;
+      const { cursor, limit, where } = input;
 
       // UserId may not exist as timeline is public
       const userId = ctx.session?.user?.id;
@@ -61,6 +73,10 @@ export const postRouter = createTRPCRouter({
       const posts = await prisma.post.findMany({
         // Pop off last post to get cursor
         take: limit + 1,
+
+        // Where is filtering. Defined by where clause. Currently where author's name string
+        where,
+
         orderBy: [
           {
             // Descending order
@@ -118,7 +134,7 @@ export const postRouter = createTRPCRouter({
       })
     )
     .mutation(async ({ ctx, input }) => {
-      // ID guaranteed to exist due to protectedProcedure
+      // ID guaranteed to exist here due to protectedProcedure
       const userId = ctx.session.user.id;
 
       const { prisma } = ctx;

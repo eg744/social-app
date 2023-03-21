@@ -5,6 +5,7 @@ import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import updateLocale from "dayjs/plugin/updateLocale";
 import { BsFillHeartFill } from "react-icons/bs";
+import Link from "next/link";
 
 import { LikeButton } from "./timelineComponents/LikeButton";
 
@@ -56,6 +57,7 @@ function updateCache({
       {
         input: {
           limit: 5,
+          where: {},
         },
         type: "infinite",
       },
@@ -132,7 +134,9 @@ export function Post({
         )}
         <div className={"ml-4"}>
           <div className={" align-center flex flex-wrap"}>
-            <p className={"mb-1 font-bold"}>{post.author.name}</p>
+            <Link href={`/${post.author.name}`}>
+              <p className={"mb-1 font-bold"}>{post.author.name}</p>
+            </Link>
 
             {/* DayJS */}
             <p className={" m-0.5 text-sm text-gray-800"}>
@@ -154,8 +158,6 @@ export function Post({
             // color="#8f181e"
             size="1.5rem"
             onClick={() => {
-              console.log("post liked", post.id);
-
               if (isLiked) {
                 unLikeMutation({
                   postId: post.id,
