@@ -10,8 +10,8 @@ import { RouterInputs } from "../utils/api";
 
 import { LikeButton } from "./timelineComponents/LikeButton";
 
-const PFP_IMAGE_WIDTH = 48;
-const PFP_IMAGE_HEIGHT = 48;
+const PFP_IMAGE_WIDTH = 50;
+const PFP_IMAGE_HEIGHT = 50;
 
 dayjs.extend(relativeTime);
 dayjs.extend(updateLocale);
