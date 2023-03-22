@@ -6,11 +6,15 @@
 - Prisma
 - tRPC
 
-### User authentication with NextAuth. 
+### User authentication with NextAuth
 - Currently supports log in for Discord users.
 
-### Make social post.
+### Make social post
 - Make plain text post. Date/time tracking with Day.js library.
 - Like / Unlike posts, update post's 'like' status and count in real time.
+
+### Timeline model
+- Public posts displayed on timeline. Can sort only posts from a specific user.
+- Infinite scroll capability from tRPC useInfiniteQuery
 
 
