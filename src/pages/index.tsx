@@ -24,7 +24,7 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <NavBar />
-      <Timeline />
+      <Timeline where={{}} />
       {console.log(JSON.stringify(session))}
       {/* Example main. will not work without the example query. */}
       {/* <main className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-b from-[#2e026d] to-[#15162c]">

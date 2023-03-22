@@ -7,6 +7,9 @@ import { Debounce } from "./Debounce";
 import { LikeButton } from "./timelineComponents/LikeButton";
 import { useQueryClient, QueryClient } from "@tanstack/react-query";
 import Link from "next/link";
+import { log } from "console";
+
+const LIMIT: number = 10;
 
 function useScrollPosition() {
   const [scrollPosition, setScrollPosition] = useState(0);
@@ -39,43 +42,13 @@ function useScrollPosition() {
   return scrollPosition;
 }
 
-// function updateCache({
-//   client,
-//   vars,
-//   data,
-//   action,
-// }: {
-//   client: QueryClient;
-//   vars: {
-//     postId: string;
-//   };
-//   data: {
-//     userId: string;
-//   };
-//   action: "like" | "unlike";
-// }) {
-//   // Pass array with query key and object with vars the query key is called with
-//   client.setQueryData(
-//     [["post", "timeline"], { limit: 10 }],
-//     // Get previous data from callback
-//     (previousData: any) => {
-//       console.log("previous data", { previousData });
-//     }
-//   );
-// }
-
+// Update cache on post.ts router
 export function Timeline({
   where = {},
 }: {
   // Post router, timeline query, where property
   where: RouterInputs["post"]["timeline"]["where"];
 }) {
-  // const likeMutation = api.post.like.useMutation({
-  //   onSuccess: (data, vars) => {
-  //     updateCache({ client, vars, data, action: "like" });
-  //   },
-  // }).mutateAsync;
-
   // // Delete like record
   // const unLikeMutation = api.post.unLike.useMutation().mutateAsync;
   const currentScrollPosition = useScrollPosition();
@@ -89,7 +62,7 @@ export function Timeline({
     api.post.timeline.useInfiniteQuery(
       {
         // Posts shown per page or per request
-        limit: 5,
+        limit: LIMIT,
         // Pass in currently filtered user to timeline
         where,
       },
@@ -139,7 +112,15 @@ export function Timeline({
         {/* Reinitialize data when using the infinitequery */}
         {posts.map((post) => {
           return (
-            <Post key={post.id} post={post} currentClient={currentClient} />
+            <Post
+              key={post.id}
+              post={post}
+              currentClient={currentClient}
+              input={{
+                where,
+                limit: LIMIT,
+              }}
+            />
           );
         })}
 
@@ -168,36 +149,3 @@ export function Timeline({
     </div>
   );
 }
-
-//=========================
-// export function LikeButton({ currentClient, ...post }) {
-// const likeMutation = api.post.like.useMutation({
-//   onSuccess: (data, vars) => {
-//     updateCache({ client, vars, data, action: "like" });
-//   },
-// }).mutateAsync;
-
-// // Delete like record
-// const unLikeMutation = api.post.unLike.useMutation().mutateAsync;
-
-// <button className={" flex  items-center hover:scale-110"}>
-//   <BsFillHeartFill
-//     color={isLiked ? "#8f181e" : "#000"}
-//     // color="#8f181e"
-//     size="1.5rem"
-//     onClick={() => {
-//       console.log("post liked", post.id);
-
-//       if (isLiked) {
-//         unLikeMutation({
-//           postId: post.id,
-//         });
-//         return;
-//       }
-//       likeMutation({
-//         postId: post.id,
-//       });
-//     }}
-//   />
-//   <span className={" m-1   text-sm text-gray-900"}>{10}</span>
-// </button>

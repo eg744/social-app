@@ -6,11 +6,12 @@ import relativeTime from "dayjs/plugin/relativeTime";
 import updateLocale from "dayjs/plugin/updateLocale";
 import { BsFillHeartFill } from "react-icons/bs";
 import Link from "next/link";
+import { RouterInputs } from "../utils/api";
 
 import { LikeButton } from "./timelineComponents/LikeButton";
 
-const PFP_IMAGE_WIDTH = 48;
-const PFP_IMAGE_HEIGHT = 48;
+const PFP_IMAGE_WIDTH = 50;
+const PFP_IMAGE_HEIGHT = 50;
 
 dayjs.extend(relativeTime);
 dayjs.extend(updateLocale);
@@ -38,6 +39,7 @@ function updateCache({
   vars,
   data,
   action,
+  input,
 }: {
   client: QueryClient;
   vars: {
@@ -47,18 +49,17 @@ function updateCache({
     userId: string;
   };
   action: "like" | "unlike";
+  // Inputs are limit, post by author filters 'where'
+  input: RouterInputs["post"]["timeline"];
 }) {
   // Pass array with query key and object with vars the query key is called with
   client.setQueryData(
-    // Previous args. new args is the exact query from the queryclient
-    // [["post", "timeline"], { limit: 10 }],
+    // New args is the exact query from the queryclient
+    // previous args were: [["post", "timeline"], { limit: 10 }],
     [
       ["post", "timeline"],
       {
-        input: {
-          limit: 5,
-          where: {},
-        },
+        input,
         type: "infinite",
       },
     ],
@@ -99,38 +100,50 @@ function updateCache({
 export function Post({
   post,
   currentClient,
+  input,
 }: {
   post: RouterOutputs["post"]["timeline"]["posts"][number];
   currentClient: QueryClient;
+  input: RouterInputs["post"]["timeline"];
 }) {
   // Update like record
   const likeMutation = api.post.like.useMutation({
     onSuccess: (data, vars) => {
-      updateCache({ client: currentClient, vars, data, action: "like" });
+      updateCache({ client: currentClient, vars, data, action: "like", input });
     },
   }).mutateAsync;
 
   // Delete like record
   const unLikeMutation = api.post.unLike.useMutation({
     onSuccess: (data, vars) => {
-      updateCache({ client: currentClient, vars, data, action: "unlike" });
+      updateCache({
+        client: currentClient,
+        vars,
+        data,
+        action: "unlike",
+        input,
+      });
     },
   }).mutateAsync;
   // Displayed post liked by logged in user
   const isLiked = post.postLikes.length > 0;
 
   return (
-    <div className={"mb-4  border-b-2 border-gray-600"}>
-      <div className={"flex p-2"}>
+    <div className={" mb-4  border-b-2 border-gray-600"}>
+      <div className={" relative flex p-3"}>
         {/* Display when image not null */}
         {post.author.image && (
-          <Image
-            className={"rounded-full"}
-            src={post.author.image}
-            alt={`${post.author.name}'s profile picture`}
-            width={PFP_IMAGE_WIDTH}
-            height={PFP_IMAGE_HEIGHT}
-          />
+          <div className={" h-full pl-1"}>
+            <Image
+              className={" rounded-full"}
+              src={post.author.image}
+              alt={`${post.author.name}'s profile picture`}
+              // style={{ height: "100%", width: "100%" }}
+
+              width={PFP_IMAGE_WIDTH}
+              height={PFP_IMAGE_HEIGHT}
+            />
+          </div>
         )}
         <div className={"ml-4"}>
           <div className={" align-center flex flex-wrap"}>
@@ -143,9 +156,6 @@ export function Post({
               - {dayjs(post.createdAt).fromNow()}
             </p>
             {/* Datetime to ISO string, not react node.  */}
-            {/* <p className={"text-sm  text-gray-800"}>
-              - {new Date(post.createdAt).toISOString()}
-            </p> */}
           </div>
           <div className={"pl-1 font-medium"}>{post.text}</div>
         </div>
@@ -172,10 +182,8 @@ export function Post({
           <span className={" m-1   text-sm text-gray-900"}>
             {/* Display likes: updated in cache */}
             {post._count.postLikes}
-            {/* {post.postLikes.length} */}
           </span>
         </button>
-        {/* <LikeButton {...{ currentClient, ...post }} /> */}
       </div>
     </div>
   );
