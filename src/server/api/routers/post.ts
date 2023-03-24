@@ -46,7 +46,7 @@ export const postRouter = createTRPCRouter({
         // Filtered users by attribute (optional)
         where: z
           .object({
-            // Filter attributes of author: name? id?
+            // Filter attributes of author: name? or id?
             author: z
               .object({
                 name: z.string().optional(),
@@ -165,7 +165,7 @@ export const postRouter = createTRPCRouter({
       const userId = ctx.session.user.id;
       const { prisma } = ctx;
 
-      // Delete where postId/userId composite key has post id is input.postId and current userId (from the unique post id in user id key from schema)
+      // No duplicate likes. Delete 'where' postId/userId composite key has post id is input.postId and current userId (due to the unique post id in user id key from schema)
       return prisma.postLike.delete({
         where: {
           postId_userId: {
