@@ -1,12 +1,14 @@
 import { Container } from "../Container";
-import { LoginButton } from "./LoginButton";
+import { NavButtons } from "./NavButtons";
 
 export function NavBar() {
   return (
     <Container>
-      <div className={" flex justify-end"}>
-        <LoginButton />
-      </div>
+      <nav className={" flex justify-end p-2"}>
+        <div className={" "}>
+          <NavButtons />
+        </div>
+      </nav>
     </Container>
   );
 }

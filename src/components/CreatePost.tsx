@@ -8,7 +8,7 @@ import { api } from "../utils/api";
 export const postSchema = object({
   // Set acceptable text size
   text: string({
-    required_error: "Post text is required",
+    required_error: "Error: Post text is required",
   })
     .min(10)
     .max(280),
@@ -36,18 +36,21 @@ export function CreatePost() {
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    console.log("error", error);
 
     // Test passing string. Update error
     try {
       await postSchema.parse({ text });
     } catch (event: any) {
-      setError(event.message);
+      const parsedError = JSON.parse(event.message);
+      setError(parsedError[0].message);
+
       return;
     }
 
     // zod String min, max checks this
     // if (text.length < 10) {
-    //   setError("Post must be minimum 10 characters long");
+    //   setError("Post must be minimum 10  long");
     //   return;
     // }
     // else
@@ -57,6 +60,7 @@ export function CreatePost() {
   return (
     <>
       {error && JSON.stringify(error)}
+
       {/* full width,  */}
       <form
         className={"flex-col, mb-4 w-full rounded-md  p-4 shadow-md"}
