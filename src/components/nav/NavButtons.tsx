@@ -1,4 +1,5 @@
 import { LoginButton } from "./LoginButton";
+import { UserAccountButton } from "./UserAccountButton";
 
 LoginButton;
 export function NavButtons() {
